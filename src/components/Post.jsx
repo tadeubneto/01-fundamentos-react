@@ -1,13 +1,13 @@
 import { Comments } from "./Comments";
 import styles from "./Post.module.css";
+import { Avatar } from "./Avatar";
 
 export function Post() {
   return (
     <article className={styles.post}>
       <header>
         <div className={styles.author}>
-          <img
-            className={styles.avatar}
+          <Avatar
             src="https://github.com/tadeubneto.png"
           />
           <div className={styles.authorInfo}>
@@ -50,7 +50,7 @@ export function Post() {
 
       <div className={styles.commentList}>
         <Comments />
-        <Comments />
+       
         <Comments />
 
       </div>

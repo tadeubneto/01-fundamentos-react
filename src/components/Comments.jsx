@@ -2,6 +2,7 @@ import { ThumbsUp, Trash } from "phosphor-react";
 import { Avatar } from "./Avatar";
 import styles from "./Comments.module.css";
 
+
 export function Comments() {
   return (
     <div className={styles.comment}>

@@ -1,10 +1,19 @@
-import { Comments } from "./Comments";
 import styles from "./Post.module.css";
+import { Comment } from "./Comment";
 import { Avatar } from "./Avatar";
 import { format, formatDistanceToNow } from 'date-fns';//lib de formatção de hora
 import ptBR from 'date-fns/locale/pt-BR'
+import { useState } from "react";
 
 export function Post({author, publishedAt, content}) {
+
+
+  const [newCommentText, setNewCommentText] = useState('')
+
+  const [comments, setComments] = useState([
+   'olá'
+    
+    ])
 
   const publishedDateFormat = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
     locale: ptBR,
@@ -12,9 +21,21 @@ export function Post({author, publishedAt, content}) {
 
   const publishedRelativeToNow = formatDistanceToNow(publishedAt, {
     locale: ptBR,
-    addSuffix: true,
+    addSuffix: true, //seria o prefixo do nosso portugues
   })
   
+  function handleCreateNewComment(){
+    event.preventDefault()
+
+    setComments([...comments, newCommentText])
+    setNewCommentText('')//apos executar a função, limpa a text area
+
+  }
+
+  function handleNewCommentText(){    
+    setNewCommentText(event.target.value)
+  }
+
   return (
     <article className={styles.post}>
       <header>
@@ -41,19 +62,24 @@ export function Post({author, publishedAt, content}) {
         })
         }
       </div>   
-      <form className={styles.commentForm}>
+      <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
         <strong>Deixe seu feedback</strong>
         <textarea 
+        name="comment"
+        value={newCommentText}// valor dela sempre vai ser o estado inicial     
         placeholder="Deixe um comentário"
+        onChange={handleNewCommentText}//monitora as mudanças da função
         />
         <footer>
-        <button type="submit">Comentar</button>
+         <button type="submit">Comentar</button>
         </footer>
       </form>
 
       <div className={styles.commentList}>
-        <Comments />
-       
+        {comments.map(comment => {
+          return <Comment content={comment} /> 
+        })}
+              
       </div>
     </article>
   );
